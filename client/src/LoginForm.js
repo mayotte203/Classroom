@@ -16,7 +16,6 @@ class LoginForm extends React.Component
             };
 
         this.handleChange = this.handleChange.bind(this);
-        this.handleArrayChange = this.handleArrayChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -27,11 +26,6 @@ class LoginForm extends React.Component
         const name = target.name;
 
         this.setState({ [name]: value });
-        return true;
-    }
-
-    handleArrayChange(event)
-    {
         return true;
     }
 
@@ -52,7 +46,9 @@ class LoginForm extends React.Component
                     localStorage.setItem("name", json.name);
                     localStorage.setItem("token", json.token);
                     localStorage.setItem("isLogedIn", json.isSuccessful);
-                    this.props.history.push("/members");
+                    if(localStorage.getItem("isLogedIn")) {
+                        this.props.history.push("/members");
+                    }
                 })
             );
 
@@ -66,14 +62,6 @@ class LoginForm extends React.Component
                 <p>
                     Please enter your name.
                 </p>
-                {this.state.success === false &&
-                <p className="alert alert-danger" role="alert">
-                    {this.state.message}
-                </p>}
-                {this.state.success === true &&
-                <p className="alert alert-success" role="alert">
-                    User successfully registered
-                </p>}
                 {!this.state.success &&
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
