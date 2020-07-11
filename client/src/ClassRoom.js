@@ -6,36 +6,41 @@ class ClassRoom extends React.Component
             webSocket: null,
             stompClient: null,
             name: null,
-            success: null
+            success: null,
+            students: null
         };
 
     constructor(props)
     {
         super(props);
-        if(!localStorage.getItem("isLogedIn")) {
+        if(localStorage.getItem("token") === null) {
             this.props.history.push("/login");
         }
+        if(localStorage.getItem("token") === "null") {
+            this.props.history.push("/login");
+        }
+        //this.userTopicHandler = this.userTopicHandler.bind(this);
+    }
+
+    userTopicHandler(greeting) {
+        this.setState({students: JSON.parse(greeting.body)});
+        console.log(this.state.students[0].name);
     }
 
     componentDidMount() {
-        /*this.state.webSocket = new WebSocket('ws://127.0.0.1:8080/gs-guide-websocket');
-        this.state.webSocket.onopen = () => {
-            console.log('connected')
-        }*/
         var Stomp = require('stompjs');
         var webSocket = new WebSocket('ws://127.0.0.1:8080/ws');
         var stompClient = Stomp.over(webSocket);
-        stompClient.connect({}, function (frame) {
+        stompClient.connect({}, (function (frame) {
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/greetings', function (greeting) {
                 console.log(JSON.parse(greeting.body).content);
             });
-            stompClient.subscribe('/user/topic/greetings', function (greeting) {
-                console.log(JSON.parse(greeting.body).content);
-            });
-        });
+            stompClient.subscribe('/user/topic/greetings', (greeting) => this.userTopicHandler(greeting));
+        }).bind(this));
         this.setState({stompClient: stompClient})
     }
+
 
     sendHello() {
         this.state.stompClient.send("/app/hello", {}, JSON.stringify({'name': 'test123'}));

@@ -8,12 +8,18 @@ import java.util.ArrayList;
 @RestController
 public class LoginController {
 
-    ArrayList<Student> students = new ArrayList<>();
+    StudentController studentController;
 
     @PostMapping("/api")
     public LoginInfo loginRequest(@RequestBody LoginRequest loginRequest) {
-        Student student = new Student(loginRequest.getName());
-        students.add(student);
-        return new LoginInfo(student.getName(), student.getToken(), new Boolean(true));
+        Student student = studentController.addStudent(loginRequest.getName());
+        if(student != null)
+        {
+            return new LoginInfo(student.getName(), student.getToken(), true);
+        }
+        else
+        {
+            return new LoginInfo(null, null, false);
+        }
     }
 }

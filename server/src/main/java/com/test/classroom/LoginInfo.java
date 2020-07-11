@@ -3,9 +3,9 @@ package com.test.classroom;
 public class LoginInfo {
     private final String name;
     private final String token;
-    private final Boolean isSuccessful;
+    private final boolean isSuccessful;
 
-    LoginInfo(String name, String token, Boolean isSuccessful)
+    LoginInfo(String name, String token, boolean isSuccessful)
     {
         this.name = name;
         this.token = token;
@@ -20,7 +20,7 @@ public class LoginInfo {
         return token;
     }
 
-    public Boolean getSuccessful() {
+    public boolean getSuccessful() {
         return isSuccessful;
     }
 }

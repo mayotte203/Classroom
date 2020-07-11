@@ -5,7 +5,7 @@ class LoginForm extends React.Component
     constructor(props)
     {
         super(props);
-        if(localStorage.getItem("isLogedIn"))
+        if(localStorage.getItem("isLogedIn") === "true")
         {
             this.props.history.push("/members");
         }
@@ -45,7 +45,8 @@ class LoginForm extends React.Component
                 response.json().then(json => {
                     localStorage.setItem("name", json.name);
                     localStorage.setItem("token", json.token);
-                    localStorage.setItem("isLogedIn", json.isSuccessful);
+                    localStorage.setItem("isLogedIn", json.successful);
+                    console.log(json);
                     if(localStorage.getItem("isLogedIn")) {
                         this.props.history.push("/members");
                     }

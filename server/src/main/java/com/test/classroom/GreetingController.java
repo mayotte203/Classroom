@@ -11,11 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.util.HtmlUtils;
 
 import java.security.Principal;
+import java.util.ArrayList;
 
 @Controller
 public class GreetingController {
 
-    private SimpMessagingTemplate template;
+    StudentController studentController;
 
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")
@@ -26,9 +27,7 @@ public class GreetingController {
 
     @MessageMapping("/signin")
     @SendToUser("/topic/greetings")
-    public Greeting processMessageFromClient(
-            HelloMessage message,
-            Principal principal) throws Exception {
-        return new Greeting("welcome" + "!");
+    public ArrayList<StudentStatus> processMessageFromClient(HelloMessage message, Principal principal) throws Exception {
+        return studentController.getStudentStatusList();
     }
 }
