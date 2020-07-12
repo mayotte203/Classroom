@@ -6,12 +6,12 @@ import java.util.Random;
 public class Student {
     private final String name;
     private final String token;
-    private Boolean handRisen;
+    private Boolean handRaised;
 
     Student(String name)
     {
         this.name = name;
-        this.handRisen = false;
+        this.handRaised = false;
         byte[] array = new byte[24];
         new Random().nextBytes(array);
         this.token = new String(Base64.getEncoder().encode(array));
@@ -25,7 +25,11 @@ public class Student {
         return token;
     }
 
-    public Boolean isHandRisen() {
-        return handRisen;
+    public Boolean isHandRaised() {
+        return this.handRaised;
+    }
+
+    public void setHandRaised(Boolean isHandRaised){
+        this.handRaised = isHandRaised;
     }
 }

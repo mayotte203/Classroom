@@ -4,21 +4,24 @@ package com.test.classroom;
 public class StudentUpdate {
 
     private String name;
-    private String action;
+    private Boolean handRaised;
+    private String token;
 
-    public StudentUpdate() {
-    }
-
-    public StudentUpdate(String name, String action) {
+    public StudentUpdate(String name, Boolean handRaised, String token) {
         this.name = name;
-        this.action = action;
+        this.handRaised = handRaised;
+        this.token = token;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getAction() {
-        return action;
+    public Boolean getHandRaised() {
+        return handRaised;
+    }
+
+    public String getToken() {
+        return token;
     }
 }
