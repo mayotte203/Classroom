@@ -1,6 +1,8 @@
 import React from 'react'
 
 import './styles.css';
+import './Classroom.css'
+import './bootstrap.min.css';
 
 class ClassRoom extends React.Component
 {
@@ -81,11 +83,25 @@ class ClassRoom extends React.Component
     }
 
     riseHandUp(){
-        this.state.stompClient.send("/app/hand", {}, JSON.stringify({'name': localStorage.getItem("name"), 'handRaised': true, 'token': localStorage.getItem("token")}));
+        const handActionRequest = {name: this.state.name, token: localStorage.getItem("token"), handRaisen: true};
+        fetch('http://127.0.0.1:8080/api/hand',
+            {method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(handActionRequest)});
     }
 
     riseHandDown(){
-        this.state.stompClient.send("/app/hand", {}, JSON.stringify({'name': localStorage.getItem("name"), 'handRaised': false, 'token': localStorage.getItem("token")}));
+        const handActionRequest = {name: this.state.name, token: localStorage.getItem("token"), handRaisen: false};
+        fetch('http://127.0.0.1:8080/api/hand',
+            {method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(handActionRequest)});
     }
 
     logout(){
@@ -112,28 +128,32 @@ class ClassRoom extends React.Component
         }
         return (
             <div className="classroom">
-                <div className="navbar">
-                    <ul>
-                        <li>
-                            <div className="dropdown">
-                                <button className="dropbtn">Actions ▼</button>
-                                <div className="dropdown-content">
-                                    {button}
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <div className="navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav">
+                            <li className="nav-item">
+                                <div className="dropdown">
+                                    <button className="dropbtn">Actions ▼</button>
+                                    <div className="dropdown-content">
+                                        {button}
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li style={{float: "right"}}>
-                            <div className="dropdown">
-                                <button className="dropbtn">{this.state.name} ▼</button>
-                                <div className="dropdown-content">
-                                    <button onClick={() => this.logout()}>Logout</button>
+                            </li>
+                        </ul>
+                        <ul className="navbar-nav ml-auto">
+                            <li className="nav-item">
+                                <div className="dropdown">
+                                    <button className="dropbtn">{this.state.name} ▼</button>
+                                    <div className="dropdown-content">
+                                        <button onClick={() => this.logout()}>Logout</button>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div className="class-members">
-                    <h1>Classroom members</h1>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div className="members-list">
+                    <h1>Class members</h1>
                     <table>
                         <tbody>{this.state.students.map(function(item, key) {
                             return (

@@ -1,4 +1,4 @@
-package com.test.classroom;
+package com.test.classroom.students;
 
 
 public class StudentUpdate {

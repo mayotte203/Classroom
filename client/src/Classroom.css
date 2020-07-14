@@ -1,0 +1,20 @@
+.members-list {
+    background: #ffffff;
+    padding: 50px;
+	max-width: 30%;
+    min-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+.members-list table {
+    width: 100%;
+    border: 2px solid black;
+}
+
+.members-list td{
+	width: 50%;
+}
+
+.members-list td:nth-child(2){
+	text-align: right;
+}

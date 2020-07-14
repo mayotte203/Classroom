@@ -1,11 +1,11 @@
-package com.test.classroom;
+package com.test.classroom.students;
 
 public class StudentStatus {
     private final String name;
     private final Boolean handRaised;
     private final Boolean disconnected;
 
-    StudentStatus(String name, Boolean isHandRaised, Boolean disconnected)
+    public StudentStatus(String name, Boolean isHandRaised, Boolean disconnected)
     {
         this.name = name;
         this.handRaised = isHandRaised;

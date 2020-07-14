@@ -1,4 +1,4 @@
-package com.test.classroom;
+package com.test.classroom.students;
 
 import java.util.Base64;
 import java.util.Random;
@@ -8,7 +8,7 @@ public class Student {
     private final String token;
     private Boolean handRaised;
 
-    Student(String name)
+    public Student(String name)
     {
         this.name = name;
         this.handRaised = false;

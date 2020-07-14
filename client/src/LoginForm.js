@@ -1,4 +1,6 @@
 import React from 'react'
+import './bootstrap.min.css';
+import './LoginForm.css';
 
 class LoginForm extends React.Component
 {
@@ -59,14 +61,10 @@ class LoginForm extends React.Component
     {
         return (
             <div className="login-form">
-                <h1>Sign In</h1>
-                <p>
-                    Please enter your name.
-                </p>
                 {!this.state.success &&
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <label>Your Name</label>
+                        <label>Your Name:</label>
                         <input type="text" className="form-control" placeholder="John Smith" name="name" required onChange={this.handleChange} />
                     </div>
                     <button type="submit" className="btn btn-primary">Sign In</button>
