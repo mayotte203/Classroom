@@ -2,7 +2,7 @@ package com.test.classroom.controller;
 
 import com.test.classroom.domain.HandActionRequest;
 import com.test.classroom.domain.Student;
-import com.test.classroom.repository.StudentRepository;
+import com.test.classroom.repository.StudentService;
 import com.test.classroom.domain.StudentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ActionsController {
     @Autowired
-    private StudentRepository studentRepository;
+    private StudentService studentService;
     @Autowired
     private SimpMessagingTemplate template;
 
     @PostMapping("/api/hand")
     public void loginRequest(@RequestBody HandActionRequest handActionRequest) {
-        Student student = studentRepository.getStudent(handActionRequest.getName());
+        Student student = studentService.getStudent(handActionRequest.getName());
         if(student != null && student.getToken().equals(handActionRequest.getToken()))
         {
             student.setHandRaised(handActionRequest.isHandRaised());

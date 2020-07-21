@@ -1,6 +1,6 @@
 package com.test.classroom.controller;
 
-import com.test.classroom.repository.StudentRepository;
+import com.test.classroom.repository.StudentService;
 import com.test.classroom.domain.StudentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;;
@@ -13,11 +13,11 @@ import java.util.ArrayList;
 @Controller
 public class ClassroomController {
     @Autowired
-    private StudentRepository studentRepository;
+    private StudentService studentService;
 
     @MessageMapping("/signin")
     @SendToUser("/topic/classroom")
     public ArrayList<StudentStatus> processMessageFromClient(Principal principal) throws Exception {
-        return studentRepository.getStudentStatusList();
+        return studentService.getStudentStatusList();
     }
 }
