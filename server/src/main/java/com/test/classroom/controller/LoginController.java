@@ -1,13 +1,17 @@
-package com.test.classroom.api.login;
+package com.test.classroom.controller;
 
-import com.test.classroom.students.Student;
-import com.test.classroom.students.StudentRepository;
-import com.test.classroom.students.StudentStatus;
+import com.test.classroom.domain.LoginInfo;
+import com.test.classroom.domain.LoginRequest;
+import com.test.classroom.domain.LogoutRequest;
+import com.test.classroom.domain.Student;
+import com.test.classroom.repository.StudentRepository;
+import com.test.classroom.domain.StudentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.*;
-
-import com.test.classroom.students.StudentStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*")
 @RestController

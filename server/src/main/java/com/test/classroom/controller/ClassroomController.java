@@ -1,7 +1,7 @@
-package com.test.classroom.websockets;
+package com.test.classroom.controller;
 
-import com.test.classroom.students.StudentRepository;
-import com.test.classroom.students.StudentStatus;
+import com.test.classroom.repository.StudentRepository;
+import com.test.classroom.domain.StudentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;;
 import org.springframework.messaging.simp.annotation.SendToUser;

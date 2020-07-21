@@ -1,5 +1,7 @@
-package com.test.classroom.students;
+package com.test.classroom.repository;
 
+import com.test.classroom.domain.Student;
+import com.test.classroom.domain.StudentStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -7,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 public class StudentRepository {
-    private  ArrayList<Student> students = new ArrayList<>();
+    private ArrayList<Student> students = new ArrayList<>();
     private ReentrantLock mutex = new ReentrantLock();
 
     public Student addStudent(String name) {

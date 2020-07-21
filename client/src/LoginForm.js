@@ -67,7 +67,7 @@ class LoginForm extends React.Component
                         <label>Your Name:</label>
                         <input type="text" className="form-control" placeholder="John Smith" name="name" required onChange={this.handleChange} />
                     </div>
-                    <button type="submit" className="btn btn-primary">Sign In</button>
+                    <button type="submit" className="btn btn-primary btn-block">Login</button>
                 </form>}
             </div>
         );

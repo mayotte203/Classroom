@@ -1,8 +1,9 @@
-package com.test.classroom.api.actions;
+package com.test.classroom.controller;
 
-import com.test.classroom.students.Student;
-import com.test.classroom.students.StudentRepository;
-import com.test.classroom.students.StudentStatus;
+import com.test.classroom.domain.HandActionRequest;
+import com.test.classroom.domain.Student;
+import com.test.classroom.repository.StudentRepository;
+import com.test.classroom.domain.StudentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +26,7 @@ public class ActionsController {
         Student student = studentRepository.getStudent(handActionRequest.getName());
         if(student != null && student.getToken().equals(handActionRequest.getToken()))
         {
-            student.setHandRaised(handActionRequest.isHandRaisen());
+            student.setHandRaised(handActionRequest.isHandRaised());
             StudentStatus status = new StudentStatus(student.getName(), student.isHandRaised(), false);
             this.template.convertAndSend("/topic/classroom", status);
         }

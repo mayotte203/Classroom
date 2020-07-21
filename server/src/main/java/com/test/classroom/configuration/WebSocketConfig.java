@@ -1,4 +1,4 @@
-package com.test.classroom.websockets;
+package com.test.classroom.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

@@ -83,7 +83,7 @@ class ClassRoom extends React.Component
     }
 
     riseHandUp(){
-        const handActionRequest = {name: this.state.name, token: localStorage.getItem("token"), handRaisen: true};
+        const handActionRequest = {name: this.state.name, token: localStorage.getItem("token"), handRaised: true};
         fetch('http://127.0.0.1:8080/api/hand',
             {method: 'POST',
                 mode: 'cors',
@@ -94,7 +94,7 @@ class ClassRoom extends React.Component
     }
 
     riseHandDown(){
-        const handActionRequest = {name: this.state.name, token: localStorage.getItem("token"), handRaisen: false};
+        const handActionRequest = {name: this.state.name, token: localStorage.getItem("token"), handRaised: false};
         fetch('http://127.0.0.1:8080/api/hand',
             {method: 'POST',
                 mode: 'cors',

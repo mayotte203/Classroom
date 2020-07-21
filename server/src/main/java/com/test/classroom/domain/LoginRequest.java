@@ -1,4 +1,4 @@
-package com.test.classroom.api.login;
+package com.test.classroom.domain;
 
 public class LoginRequest {
     private String name;

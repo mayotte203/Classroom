@@ -1,11 +1,11 @@
-package com.test.classroom.api.login;
+package com.test.classroom.domain;
 
 public class LoginInfo {
     private final String name;
     private final String token;
     private final boolean isSuccessful;
 
-    LoginInfo(String name, String token, boolean isSuccessful)
+    public LoginInfo(String name, String token, boolean isSuccessful)
     {
         this.name = name;
         this.token = token;

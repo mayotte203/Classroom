@@ -1,9 +1,9 @@
-package com.test.classroom.api.actions;
+package com.test.classroom.domain;
 
 public class HandActionRequest {
     private String name;
     private String token;
-    private Boolean handRaisen;
+    private Boolean handRaised;
 
     public String getName() {
         return name;
@@ -13,7 +13,7 @@ public class HandActionRequest {
         return token;
     }
 
-    public Boolean isHandRaisen() {
-        return handRaisen;
+    public Boolean isHandRaised() {
+        return handRaised;
     }
 }
