@@ -1,8 +1,7 @@
 package com.test.classroom.controller;
 
 import com.test.classroom.domain.HandActionRequest;
-import com.test.classroom.domain.Student;
-import com.test.classroom.repository.StudentService;
+import com.test.classroom.service.StudentService;
 import com.test.classroom.domain.StudentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -23,11 +22,9 @@ public class ActionsController {
 
     @PostMapping("/api/hand")
     public void loginRequest(@RequestBody HandActionRequest handActionRequest) {
-        Student student = studentService.getStudent(handActionRequest.getName());
-        if(student != null && student.getToken().equals(handActionRequest.getToken()))
+        if(studentService.setStudentHandRaised(handActionRequest.getName(), handActionRequest.getToken(), handActionRequest.isHandRaised()))
         {
-            student.setHandRaised(handActionRequest.isHandRaised());
-            StudentStatus status = new StudentStatus(student.getName(), student.isHandRaised(), false);
+            StudentStatus status = new StudentStatus(handActionRequest.getName(), handActionRequest.isHandRaised(), false);
             this.template.convertAndSend("/topic/classroom", status);
         }
     }

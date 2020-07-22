@@ -8,7 +8,7 @@ import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ClassroomController {
@@ -17,7 +17,8 @@ public class ClassroomController {
 
     @MessageMapping("/signin")
     @SendToUser("/topic/classroom")
-    public ArrayList<StudentStatus> processMessageFromClient(Principal principal) throws Exception {
+
+    public List<StudentStatus> processMessageFromClient(Principal principal) throws Exception {
         return studentService.getStudentStatusList();
     }
 }

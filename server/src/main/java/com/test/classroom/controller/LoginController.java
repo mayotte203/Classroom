@@ -4,7 +4,7 @@ import com.test.classroom.domain.LoginInfo;
 import com.test.classroom.domain.LoginRequest;
 import com.test.classroom.domain.LogoutRequest;
 import com.test.classroom.domain.Student;
-import com.test.classroom.repository.StudentService;
+import com.test.classroom.service.StudentService;
 import com.test.classroom.domain.StudentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -37,10 +37,8 @@ public class LoginController {
 
     @PostMapping("/api/logout")
     public void logoutRequest(@RequestBody LogoutRequest logoutRequest) {
-        Student student = studentService.getStudent(logoutRequest.getName());
-        if (student != null && student.getToken().equals(logoutRequest.getToken())) {
-            this.template.convertAndSend("/topic/classroom", new StudentStatus(student.getName(), student.isHandRaised(), true));
-            studentService.deleteStudent(student);
+        if (studentService.deleteStudent(logoutRequest.getName(), logoutRequest.getToken())) {
+            this.template.convertAndSend("/topic/classroom", new StudentStatus(logoutRequest.getName(), false, true));
         }
     }
 }
