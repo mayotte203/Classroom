@@ -1,7 +1,7 @@
 package com.test.classroom.controller;
 
-import com.test.classroom.repository.StudentService;
 import com.test.classroom.domain.StudentStatus;
+import com.test.classroom.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;;
 import org.springframework.messaging.simp.annotation.SendToUser;

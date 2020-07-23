@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, Integer>  {
     List<Student> findByName(String name);
-    List<Student> findByNameAndToken(String name, String token);
     @Transactional
-    Long deleteByNameAndToken(String name, String token);
+    Long deleteByName(String name);
 }

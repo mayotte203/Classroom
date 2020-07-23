@@ -8,63 +8,64 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 public class StudentService {
-    private ReentrantLock mutex = new ReentrantLock();
-
     @Autowired
     private StudentRepository studentRepository;
 
     public StudentService(){
     }
 
-    public synchronized Student addStudent(String name) {
+    public synchronized Student loginStudent(String name) {
         Student student = null;
         List<Student> studentsList = studentRepository.findByName(name);
         if(studentsList.isEmpty()) {
             student = new Student(name);
             studentRepository.save(student);
         }
+        else {
+            if(!studentsList.get(0).isLogedIn()) {
+                student = studentsList.get(0);
+                student.setLogedIn(true);
+                studentRepository.save(student);
+            }
+        }
         return student;
     }
 
     public synchronized Boolean setStudentHandRaised(String name, String token, Boolean isHandRaised){
-        try {
-            mutex.lock();
-            List<Student> studentsList = studentRepository.findByNameAndToken(name, token);
-            if(!studentsList.isEmpty()){
-                studentsList.get(0).setHandRaised(isHandRaised);
-                studentRepository.save(studentsList.get(0));
-                return true;
-            }
-        } finally {
-            mutex.unlock();
+        List<Student> studentsList = studentRepository.findByName(name);
+        if(!studentsList.isEmpty()){
+            studentsList.get(0).setHandRaised(isHandRaised);
+            studentRepository.save(studentsList.get(0));
+            return true;
         }
         return false;
     }
 
-    public synchronized Boolean deleteStudent(String name, String token){
-        try {
-            mutex.lock();
-            return(studentRepository.deleteByNameAndToken(name, token) != 0);
-        } finally {
-            mutex.unlock();
+    public synchronized Boolean logoutStudent(String name){
+        List<Student> studentsList = studentRepository.findByName(name);
+        if(!studentsList.isEmpty()){
+            studentsList.get(0).setLogedIn(false);
+            studentRepository.save(studentsList.get(0));
+            return true;
         }
+        return false;
+    }
+
+    public synchronized Boolean deleteStudent(String name){
+        return(studentRepository.deleteByName(name) != 0);
     }
 
     public synchronized List<StudentStatus> getStudentStatusList()
     {
         List<StudentStatus> studentsStatusList = new ArrayList<>();
-        try {
-            mutex.lock();
-            List<Student> studentsList = studentRepository.findAll();
-            for (Student student: studentsList) {
+        List<Student> studentsList = studentRepository.findAll();
+        for (Student student: studentsList) {
+            if (student.isLogedIn()) {
                 studentsStatusList.add(new StudentStatus(student.getName(), student.isHandRaised(), false));
             }
-        } finally {
-            mutex.unlock();
         }
         return studentsStatusList;
     }

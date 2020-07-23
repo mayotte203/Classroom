@@ -46,7 +46,6 @@ class LoginForm extends React.Component
             .then(response =>
                 response.json().then(json => {
                     localStorage.setItem("name", json.name);
-                    localStorage.setItem("token", json.token);
                     localStorage.setItem("isLogedIn", json.successful);
                     console.log(json);
                     if(localStorage.getItem("isLogedIn")) {

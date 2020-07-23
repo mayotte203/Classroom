@@ -19,10 +19,13 @@ class ClassRoom extends React.Component
     constructor(props)
     {
         super(props);
-        if(localStorage.getItem("token") === null) {
+        if(localStorage.getItem("isLogedIn") === null) {
             this.props.history.push("/login");
         }
-        if(localStorage.getItem("token") === "null") {
+        if(localStorage.getItem("isLogedIn") === "null") {
+            this.props.history.push("/login");
+        }
+        if(localStorage.getItem("isLogedIn") === "false"){
             this.props.history.push("/login");
         }
     }
@@ -56,20 +59,23 @@ class ClassRoom extends React.Component
 
     userTopicHandler(greetingJson) {
         this.setState({students: JSON.parse(greetingJson.body)});
+        var handRaised = false;
         this.state.students.forEach(function(item, index) {
             if(item.name === this.state.name) {
-                this.state.handRaised = item.handRaised;
+                handRaised = item.handRaised;
             }
         }.bind(this));
+        this.setState({handRaised: handRaised});
     }
 
     componentDidMount() {
-        if(localStorage.getItem("token") === null || localStorage.getItem("token") === "null") {
+        if(localStorage.getItem("isLogedIn") === null
+            || localStorage.getItem("isLogedIn") === "null"
+            || localStorage.getItem("isLogedIn") === "false") {
             this.props.history.push("/login");
         }
         else {
             this.state.name = localStorage.getItem("name")
-            console.log(this.state.name)
             var Stomp = require('stompjs');
             var webSocket = new WebSocket('ws://127.0.0.1:8080/ws');
             var stompClient = Stomp.over(webSocket);
@@ -88,7 +94,7 @@ class ClassRoom extends React.Component
     }
 
     riseHandUp(){
-        const handActionRequest = {name: this.state.name, token: localStorage.getItem("token"), handRaised: true};
+        const handActionRequest = {name: this.state.name, handRaised: true};
         fetch('http://127.0.0.1:8080/api/hand',
             {method: 'POST',
                 mode: 'cors',
@@ -99,7 +105,7 @@ class ClassRoom extends React.Component
     }
 
     riseHandDown(){
-        const handActionRequest = {name: this.state.name, token: localStorage.getItem("token"), handRaised: false};
+        const handActionRequest = {name: this.state.name, handRaised: false};
         fetch('http://127.0.0.1:8080/api/hand',
             {method: 'POST',
                 mode: 'cors',
@@ -110,7 +116,7 @@ class ClassRoom extends React.Component
     }
 
     logout(){
-        const logoutRequest = {name: this.state.name, token: localStorage.getItem("token")};
+        const logoutRequest = {name: this.state.name};
         fetch('http://127.0.0.1:8080/api/logout',
             {method: 'POST',
                 mode: 'cors',
