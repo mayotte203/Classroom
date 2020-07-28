@@ -1,16 +1,21 @@
 package com.test.classroom.domain;
 
+import com.test.classroom.repository.HistoryRepository;
+import com.test.classroom.repository.StudentRepository;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Base64;
-import java.util.Random;
+import java.util.*;
 
 @Entity
 @Table(name = "data")
-public class Student{
+public class Student implements Serializable{
+
+    final private static Integer maxHistorySize = 10;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "data_generator")
+    @SequenceGenerator(name="data_generator", sequenceName = "data_seq", allocationSize=50)
     @Column(name="id")
     private Integer id;
 
@@ -23,8 +28,8 @@ public class Student{
     @Column(name = "loged_in")
     private Boolean logedIn;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "student")
-    private History history;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<History> history = new ArrayList<>();
 
     public Student() {
     }
@@ -32,10 +37,7 @@ public class Student{
     public Student(String name) {
         this.name = name;
         this.handRaised = false;
-        this.logedIn = true;
-        this.history = new History();
-        this.history.setStudent(this);
-        this.history.addAction("login");
+        setLogedIn(true);
     }
 
     public String getName() {
@@ -50,22 +52,29 @@ public class Student{
         return this.logedIn;
     }
 
+    private void addToHistory(String action){
+        if(history.size() > maxHistorySize - 1){
+            history.remove(0);
+        }
+        history.add(new History(this, action));
+    }
+
     public void setHandRaised(Boolean isHandRaised){
         if(isHandRaised){
-            this.history.addAction("hand up");
+            addToHistory("hand up");
         }
         else {
-            this.history.addAction("hand down");
+            addToHistory("hand down");
         }
         this.handRaised = isHandRaised;
     }
 
     public void setLogedIn(Boolean isLogedIn){
         if(isLogedIn){
-            this.history.addAction("login");
+            addToHistory("login");
         }
         else {
-            this.history.addAction("logout");
+            addToHistory("logout");
         }
         this.logedIn = isLogedIn;
     }

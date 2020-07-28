@@ -1,25 +1,37 @@
 package com.test.classroom.domain;
 
-import com.test.classroom.utils.StringToListConverter;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.sql.Date;
+import java.util.Calendar;
 
 @Entity
 @Table(name = "history")
 public class History implements Serializable{
     @Id
-    @OneToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "history_generator")
+    @SequenceGenerator(name="history_generator", sequenceName = "history_seq", allocationSize=50)
+    @Column(name="id")
+    private Integer id;
 
-    @Column(name = "actions")
-    @Convert(converter = StringToListConverter.class)
-    private List<String> actions = new ArrayList<>();
+    @ManyToOne(/*fetch = FetchType.LAZY*/)
+    @JoinColumn(name = "student_id")
+    Student student;
+
+    @Column(name = "action_date")
+    private Date actionDate;
+
+    @Column(name = "action")
+    private String action;
 
     public History(){
+    }
+
+    public History(Student student, String action){
+        actionDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        this.student = student;
+        this.action = action;
     }
 
     public Student getStudent() {
@@ -30,10 +42,7 @@ public class History implements Serializable{
         this.student = student;
     }
 
-    public void addAction(String action){
-        actions.add(action);
-        if(actions.size() > 10){
-            actions.remove(0);
-        }
+    public void setAction(String action){
+        this.action = action;
     }
 }
