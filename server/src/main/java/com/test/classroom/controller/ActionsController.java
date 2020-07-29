@@ -21,7 +21,7 @@ public class ActionsController {
     private SimpMessagingTemplate template;
 
     @PostMapping("/api/hand")
-    public void loginRequest(@RequestBody HandActionRequest handActionRequest) {
+    public void handActionRequest(@RequestBody HandActionRequest handActionRequest) {
         if(studentService.setStudentHandRaised(handActionRequest.getName(), handActionRequest.getToken(), handActionRequest.isHandRaised()))
         {
             StudentStatus status = new StudentStatus(handActionRequest.getName(), handActionRequest.isHandRaised(), false);

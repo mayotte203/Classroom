@@ -38,6 +38,14 @@ public class History implements Serializable{
         return student;
     }
 
+    public String getAction() {
+        return action;
+    }
+
+    public Date getActionDate() {
+        return actionDate;
+    }
+
     public void setStudent(Student student) {
         this.student = student;
     }
