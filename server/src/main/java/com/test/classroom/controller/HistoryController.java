@@ -32,7 +32,8 @@ public class HistoryController {
         List<HistoryInfo> h = historyService.getHistoryInfoByParams(historyRequest.getName(),
                 historyRequest.getAction(),
                 historyRequest.getStartDate(),
-                historyRequest.getEndDate());
+                historyRequest.getEndDate(),
+                historyRequest.isAscending());
         return h;
     }
 }

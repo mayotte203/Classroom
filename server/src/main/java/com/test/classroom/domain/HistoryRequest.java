@@ -7,6 +7,7 @@ public class HistoryRequest {
     private String action;
     private Date startDate;
     private Date endDate;
+    private Boolean ascending;
 
     public String getName() {
         return name;
@@ -22,5 +23,9 @@ public class HistoryRequest {
 
     public Date getStartDate() {
         return startDate;
+    }
+
+    public Boolean isAscending(){
+        return ascending;
     }
 }

@@ -14,6 +14,7 @@ class HistoryForm extends React.Component
             endDate: new Date(),
             name: '',
             action: '',
+            ascending: true,
             history: []
         };
         this.handleActionChange = this.handleActionChange.bind(this);
@@ -21,6 +22,7 @@ class HistoryForm extends React.Component
         this.handleStartDateChange = this.handleStartDateChange.bind(this);
         this.handleEndDateChange = this.handleEndDateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleOrderSwitch = this.handleOrderSwitch.bind(this);
     }
 
     handleNameChange(event) {
@@ -51,6 +53,12 @@ class HistoryForm extends React.Component
         });
     }
 
+    handleOrderSwitch(){
+        this.setState({
+            ascending: !this.state.ascending
+        })
+    }
+
     handleSubmit(event)
     {
         event.preventDefault();
@@ -60,17 +68,27 @@ class HistoryForm extends React.Component
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(this.state)})
+                body: JSON.stringify({name: this.state.name,
+                action: this.state.action,
+                startDate: this.state.startDate,
+                endDate: this.state.endDate,
+                ascending: this.state.ascending})})
             .then(response =>
                 response.json().then(json => {
                     this.setState({history: json})
-                    console.log(json);
                 })
             );
     }
 
     render()
     {
+        let icon;
+        if(this.state.ascending){
+            icon = <img src="ASC.png" alt="" style={{height: "30px"}}></img>
+        }
+        else{
+            icon = <img src="DSC.png" alt="" style={{height: "30px"}}></img>
+        }
         return (
             <div>
                 <form className="history-form" onSubmit={this.handleSubmit}>
@@ -89,7 +107,6 @@ class HistoryForm extends React.Component
                                 <option balue={'logout'}>Logout</option>
                             </select>
                         </div>
-
                     </div>
                     <div className="form-row">
                         <div className="form-group col-md-3">
@@ -99,6 +116,9 @@ class HistoryForm extends React.Component
                         <div className="form-group col-md-3">
                             <label htmlFor="inputDate2">To</label>
                             <DatePicker id="inputDate2" className="form-control" selected={this.state.endDate}  onChange={this.handleEndDateChange}/>
+                        </div>
+                        <div className="form-group col-md-3">
+                            <button type="button" onClick={this.handleOrderSwitch}>{icon}</button>
                         </div>
                     </div>
                     <button type="submit" className="btn btn-primary">Submit</button>
