@@ -3,8 +3,8 @@ package com.test.classroom.service;
 import com.test.classroom.domain.History;
 import com.test.classroom.domain.HistoryInfo;
 import com.test.classroom.repository.HistoryRepository;
+import com.test.classroom.repository.HistoryRepositoryCustom;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -15,25 +15,14 @@ import java.util.List;
 public class HistoryService {
     @Autowired
     private HistoryRepository historyRepository;
+    @Autowired
+    private HistoryRepositoryCustom historyRepositoryCustom;
 
     public List<HistoryInfo> getHistoryInfoByParams(String name, String action, Date startDate, Date endDate, boolean ascending){
         List<HistoryInfo> result = new ArrayList<>();
         String nameParam = name.toLowerCase();
         String actionParam = action.toLowerCase();
-        /*Sort sort = Sort.by("action_date");
-        if(ascending){
-            sort.ascending();
-        }
-        else{
-            sort.descending();
-        }*/
-        List<History> historyList = new ArrayList<>();
-        if(ascending){
-            historyList = historyRepository.findByStudent_NameContainsIgnoreCaseAndActionContainsIgnoreCaseAndActionDateGreaterThanEqualAndActionDateLessThanEqualOrderByActionDateAsc(nameParam, actionParam, startDate, endDate);
-        }
-        else{
-            historyList = historyRepository.findByStudent_NameContainsIgnoreCaseAndActionContainsIgnoreCaseAndActionDateGreaterThanEqualAndActionDateLessThanEqualOrderByActionDateDesc(nameParam, actionParam, startDate, endDate);
-        }
+        List<History> historyList = historyRepositoryCustom.findByParams(nameParam, actionParam, startDate, endDate, ascending);
         for (History history: historyList) {
             result.add(new HistoryInfo(history.getStudent().getName(), history.getAction(), history.getActionDate()));
         }
